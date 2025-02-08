@@ -1,18 +1,38 @@
-import { app, logger } from "@/server";
+import bodyParser from "body-parser";
+import express from "express";
 
-const server = app.listen(8080, () => {
-  const { NODE_ENV, HOST, PORT } = process.env;
-  logger.info(`Server (development) running on port http://localhost:8080`);
+import { Pool } from "pg";
+import errorHandler from "./middleware/error";
+import logger from "./middleware/logger";
+import notFound from "./middleware/notFound";
+import meetingRoutes from "./routes/meetingRoute";
+
+export const app = express();
+const port = process.env.DATABASE_PORT || 9000;
+
+export const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT ? Number.parseInt(process.env.DATABASE_PORT) : undefined,
 });
 
-const onCloseSignal = () => {
-  logger.info("sigint received, shutting down");
-  server.close(() => {
-    logger.info("server closed");
-    process.exit();
-  });
-  setTimeout(() => process.exit(1), 10000).unref(); // Force shutdown after 10s
-};
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-process.on("SIGINT", onCloseSignal);
-process.on("SIGTERM", onCloseSignal);
+// Use the logger middleware
+app.use(logger);
+
+// Define your routes here
+app.use("/api/meetings", meetingRoutes);
+
+// Use the not found middleware
+app.use(notFound);
+
+// Use the global error handler
+app.use(errorHandler);
+
+app.listen(port, () => {
+  console.log(`App running on port ${port}.`);
+});
