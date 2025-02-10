@@ -1,13 +1,19 @@
 import { Router } from "express";
-import { createMeeting, deleteMeeting, editMeeting, getMeeting, getMeetings } from "../controllers/meeting";
+import {
+  createMeeting,
+  deleteMeeting,
+  editMeeting,
+  getMeeting,
+  getMeetings,
+} from "../controllers/meeting";
 
 const router = Router();
 
 // GET /meetings
 router.get("/", getMeetings);
 
-// GET /meetings
-router.get("/", getMeeting);
+// GET /meeting
+router.get("/:id", getMeeting);
 
 // POST /meeting
 router.post("/", createMeeting);
