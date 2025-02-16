@@ -42,7 +42,7 @@ export const meetingsData = [
     time: "11:00:00",
     duration: 120,
     attendees: "Alice, Bob, Charlie, David",
-    description: "Team building activities to enhance collaboration",
+    description: "Team building activities to enhance collaboration"
   },
   {
     id: 6,
