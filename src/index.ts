@@ -25,15 +25,15 @@ const port = process.env.DATABASE_PORT || 9000;
 //   password: process.env.DATABASE_PASSWORD,
 //   port: process.env.DATABASE_PORT,
 // });
-export const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: process.env.DATABASE_PORT
-    ? Number.parseInt(process.env.DATABASE_PORT)
-    : undefined,
-});
+// export const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.HOST,
+//   database: process.env.DATABASE_NAME,
+//   password: process.env.DATABASE_PASSWORD,
+//   port: process.env.DATABASE_PORT
+//     ? Number.parseInt(process.env.DATABASE_PORT)
+//     : undefined,
+// });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
